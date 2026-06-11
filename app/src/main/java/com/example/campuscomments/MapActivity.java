@@ -25,6 +25,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.example.campuscomments.model.CampusPoi;
+import com.example.campuscomments.util.WindowInsetUtils;
 
 import java.util.List;
 
@@ -54,6 +55,7 @@ public class MapActivity extends AppCompatActivity {
         AMapLocationClient.updatePrivacyAgree(this, true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        WindowInsetUtils.applySystemBars(this);
 
         progressBar = findViewById(R.id.progressBar);
         typeSpinner = findViewById(R.id.typeSpinner);

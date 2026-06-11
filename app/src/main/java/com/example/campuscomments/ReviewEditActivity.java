@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.campuscomments.model.CampusPoi;
 import com.example.campuscomments.model.Review;
+import com.example.campuscomments.util.WindowInsetUtils;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class ReviewEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_edit);
+        WindowInsetUtils.applySystemBars(this);
 
         poiObjectId = getIntent().getStringExtra(AppConstants.EXTRA_POI_OBJECT_ID);
         if (TextUtils.isEmpty(poiObjectId)) {
@@ -67,6 +69,10 @@ public class ReviewEditActivity extends AppCompatActivity {
         }
 
         publishButton.setEnabled(false);
+        saveReview(score, content, tags, user);
+    }
+
+    private void saveReview(int score, String content, String tags, CampusUser user) {
         CampusPoi poi = new CampusPoi();
         poi.setObjectId(poiObjectId);
 

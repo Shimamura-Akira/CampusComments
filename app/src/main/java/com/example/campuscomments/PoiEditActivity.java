@@ -16,6 +16,7 @@ import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.example.campuscomments.model.CampusPoi;
+import com.example.campuscomments.util.WindowInsetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class PoiEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi_edit);
+        WindowInsetUtils.applySystemBars(this);
 
         nameInput = findViewById(R.id.nameInput);
         typeSpinner = findViewById(R.id.typeSpinner);

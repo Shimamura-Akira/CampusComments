@@ -17,6 +17,7 @@ import com.example.campuscomments.adapter.ReviewAdapter;
 import com.example.campuscomments.model.CampusPoi;
 import com.example.campuscomments.model.Favorite;
 import com.example.campuscomments.model.Review;
+import com.example.campuscomments.util.WindowInsetUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +49,7 @@ public class PoiDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi_detail);
+        WindowInsetUtils.applySystemBars(this);
 
         poiObjectId = getIntent().getStringExtra(AppConstants.EXTRA_POI_OBJECT_ID);
         if (TextUtils.isEmpty(poiObjectId)) {

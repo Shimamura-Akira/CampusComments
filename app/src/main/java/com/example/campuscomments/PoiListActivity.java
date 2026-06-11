@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.campuscomments.adapter.PoiAdapter;
 import com.example.campuscomments.db.LocalDatabaseHelper;
 import com.example.campuscomments.model.CampusPoi;
+import com.example.campuscomments.util.WindowInsetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class PoiListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi_list);
+        WindowInsetUtils.applySystemBars(this);
 
         databaseHelper = new LocalDatabaseHelper(this);
         progressBar = findViewById(R.id.progressBar);

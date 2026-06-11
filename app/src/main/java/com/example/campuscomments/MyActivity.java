@@ -14,6 +14,7 @@ import com.example.campuscomments.adapter.PoiAdapter;
 import com.example.campuscomments.adapter.ReviewAdapter;
 import com.example.campuscomments.model.Favorite;
 import com.example.campuscomments.model.Review;
+import com.example.campuscomments.util.WindowInsetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class MyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+        WindowInsetUtils.applySystemBars(this);
 
         currentUser = BmobUser.getCurrentUser(CampusUser.class);
         if (currentUser == null) {

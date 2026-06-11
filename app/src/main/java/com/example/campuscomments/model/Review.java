@@ -3,7 +3,6 @@ package com.example.campuscomments.model;
 import com.example.campuscomments.CampusUser;
 
 import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobFile;
 
 public class Review extends BmobObject {
     private CampusPoi poi;
@@ -11,7 +10,6 @@ public class Review extends BmobObject {
     private Integer score;
     private String content;
     private String tags;
-    private BmobFile image;
 
     public CampusPoi getPoi() {
         return poi;
@@ -51,13 +49,5 @@ public class Review extends BmobObject {
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public BmobFile getImage() {
-        return image;
-    }
-
-    public void setImage(BmobFile image) {
-        this.image = image;
     }
 }
