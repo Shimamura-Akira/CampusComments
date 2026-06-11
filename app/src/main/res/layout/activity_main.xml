@@ -1,66 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:background="?attr/colorSurface">
+
+    <FrameLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="112dp">
+
+        <ScrollView
+            android:id="@+id/homeSection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/space_lg">
+
+                <TextView
+                    android:id="@+id/welcomeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Campus.Display" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xs"
+                    android:text="今天想看看校园里的哪里？"
+                    android:textAppearance="@style/TextAppearance.Campus.Body" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Campus.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:hint="搜索兴趣点"
+                    app:startIconDrawable="@drawable/ic_search_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/homeSearchInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Campus.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/space_md">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="校区"
+                            android:textAppearance="@style/TextAppearance.Campus.Label" />
+
+                        <Spinner
+                            android:id="@+id/campusSpinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/touch_target"
+                            android:layout_marginTop="@dimen/space_xs" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xl"
+                    android:text="随机点评"
+                    android:textAppearance="@style/TextAppearance.Campus.Title" />
+
+                <TextView
+                    android:id="@+id/randomEmptyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/space_lg"
+                    android:text="暂无点评，去地图上添加兴趣点并写第一条测评吧"
+                    android:textAppearance="@style/TextAppearance.Campus.Body"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/randomReviewRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/listSection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurface"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="附近兴趣点"
+                android:textAppearance="@style/TextAppearance.Campus.Display" />
+
+            <TextView
+                android:id="@+id/locationHintText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xs"
+                android:text="正在获取定位，用于筛选 3 公里内兴趣点"
+                android:textAppearance="@style/TextAppearance.Campus.Body" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Campus.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:hint="按名称、地址或类型筛选"
+                app:startIconDrawable="@drawable/ic_search_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/listSearchInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ProgressBar
+                android:id="@+id/listProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="@dimen/space_md"
+                android:indeterminate="true" />
+
+            <TextView
+                android:id="@+id/listEmptyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/space_lg"
+                android:text="附近暂无兴趣点"
+                android:textAppearance="@style/TextAppearance.Campus.Body"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/nearbyPoiRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/space_md"
+                android:clipToPadding="false"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/favoriteSection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurface"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/space_lg">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="收藏"
+                    android:textAppearance="@style/TextAppearance.Campus.Display" />
+
+                <TextView
+                    android:id="@+id/favoriteEmptyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/space_lg"
+                    android:text="暂无收藏"
+                    android:textAppearance="@style/TextAppearance.Campus.Body"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/favoriteRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/mySection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurface"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/space_lg">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="我的"
+                    android:textAppearance="@style/TextAppearance.Campus.Display" />
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Campus.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg">
+
+                    <TextView
+                        android:id="@+id/userText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_lg"
+                        android:textAppearance="@style/TextAppearance.Campus.Title" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="测评记录"
+                    android:textAppearance="@style/TextAppearance.Campus.Title" />
+
+                <TextView
+                    android:id="@+id/myReviewEmptyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/space_lg"
+                    android:text="暂无测评记录"
+                    android:textAppearance="@style/TextAppearance.Campus.Body"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/myReviewRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:nestedScrollingEnabled="false" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/logoutButton"
+                    style="@style/Widget.Campus.Button.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/touch_target"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="退出登录"
+                    android:textColor="?attr/colorError"
+                    app:icon="@drawable/ic_logout_24" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="76dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/space_lg"
+        android:layout_marginEnd="@dimen/space_lg"
+        android:layout_marginBottom="@dimen/space_lg"
+        android:background="@drawable/bg_bottom_nav"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/space_sm">
 
-        <TextView
-            android:id="@+id/welcomeText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="欢迎来到校园点评"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+        <ImageButton
+            android:id="@+id/homeTab"
+            style="@style/Widget.Campus.NavIcon"
+            android:contentDescription="主页"
+            android:src="@drawable/ic_home_24" />
 
-        <Button
-            android:id="@+id/mapButton"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="28dp"
-            android:text="地图查看兴趣点" />
+        <ImageButton
+            android:id="@+id/listTab"
+            style="@style/Widget.Campus.NavIcon"
+            android:contentDescription="列表"
+            android:src="@drawable/ic_list_24" />
 
-        <Button
-            android:id="@+id/listButton"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:text="查看兴趣点列表" />
+        <ImageButton
+            android:id="@+id/addTab"
+            style="@style/Widget.Campus.NavIcon"
+            android:contentDescription="新加兴趣点"
+            android:src="@drawable/ic_add_24" />
 
-        <Button
-            android:id="@+id/addPoiButton"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:text="添加兴趣点" />
+        <ImageButton
+            android:id="@+id/favoriteTab"
+            style="@style/Widget.Campus.NavIcon"
+            android:contentDescription="收藏"
+            android:src="@drawable/ic_heart_24" />
 
-        <Button
-            android:id="@+id/seedPoiButton"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:text="创建测试兴趣点" />
-
-        <Button
-            android:id="@+id/myButton"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:text="我的" />
-
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="32dp"
-            android:text="退出登录" />
-
+        <ImageButton
+            android:id="@+id/myTab"
+            style="@style/Widget.Campus.NavIcon"
+            android:contentDescription="我的"
+            android:src="@drawable/ic_user_24" />
     </LinearLayout>
-</ScrollView>
+</FrameLayout>

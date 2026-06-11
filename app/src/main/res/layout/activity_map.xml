@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mapRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
 
     <com.amap.api.maps.MapView
         android:id="@+id/mapView"
@@ -15,35 +18,62 @@
         android:layout_height="4dp"
         android:indeterminate="true" />
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Campus.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:layout_margin="16dp"
-        android:background="#CCFFFFFF"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_margin="@dimen/space_md">
 
-        <Spinner
-            android:id="@+id/typeSpinner"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/space_md">
 
-        <Button
-            android:id="@+id/filterButton"
-            android:layout_width="96dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:text="筛选" />
-    </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Campus.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="搜索高德地点"
+                app:startIconDrawable="@drawable/ic_search_24">
 
-    <Button
-        android:id="@+id/addPoiButton"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:text="添加兴趣点" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mapSearchInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/typeSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/touch_target"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/searchButton"
+                    style="@style/Widget.Campus.Button.Outlined"
+                    android:layout_width="96dp"
+                    android:layout_height="@dimen/touch_target"
+                    android:layout_marginStart="@dimen/space_sm"
+                    android:text="搜索" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/filterButton"
+                style="@style/Widget.Campus.Button.Text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_target"
+                android:text="筛选地图兴趣点" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

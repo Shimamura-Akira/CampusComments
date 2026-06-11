@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="campus_primary">#F3F1EC</color>
+    <color name="campus_on_primary">#151A1F</color>
+    <color name="campus_primary_container">#30363D</color>
+    <color name="campus_on_primary_container">#F3F1EC</color>
+    <color name="campus_secondary">#B9C4CF</color>
+    <color name="campus_on_secondary">#202832</color>
+    <color name="campus_secondary_container">#2B333C</color>
+    <color name="campus_on_secondary_container">#E6EBEF</color>
+    <color name="campus_tertiary">#FFB986</color>
+    <color name="campus_on_tertiary">#4C2507</color>
+    <color name="campus_tertiary_container">#67350F</color>
+    <color name="campus_on_tertiary_container">#FFE0C5</color>
+    <color name="campus_background">#101214</color>
+    <color name="campus_on_background">#E7E3DC</color>
+    <color name="campus_surface">#101214</color>
+    <color name="campus_on_surface">#E7E3DC</color>
+    <color name="campus_surface_variant">#3D4248</color>
+    <color name="campus_on_surface_variant">#C5C7C9</color>
+    <color name="campus_surface_container">#1A1D20</color>
+    <color name="campus_surface_container_high">#24282C</color>
+    <color name="campus_outline">#5D6268</color>
+    <color name="campus_error">#FFB4AB</color>
+    <color name="campus_on_error">#690005</color>
+    <color name="campus_photo_start">#6DB9C8</color>
+    <color name="campus_photo_mid">#D88D4C</color>
+    <color name="campus_photo_end">#13181D</color>
+    <color name="campus_photo_alt_start">#7EBBA0</color>
+    <color name="campus_photo_alt_end">#24475B</color>
+</resources>

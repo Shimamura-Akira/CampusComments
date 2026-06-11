@@ -47,7 +47,8 @@ public class PoiAdapter extends RecyclerView.Adapter<PoiAdapter.PoiViewHolder> {
     public void onBindViewHolder(@NonNull PoiViewHolder holder, int position) {
         CampusPoi poi = pois.get(position);
         holder.nameText.setText(poi.getName());
-        holder.metaText.setText(AppConstants.displayType(poi.getType()) + " · " + nullToDash(poi.getAddress()));
+        holder.metaText.setText(AppConstants.displayType(poi.getType()));
+        holder.addressText.setText(nullToDash(poi.getAddress()));
         double score = poi.getAvgScore() == null ? 0 : poi.getAvgScore();
         int count = poi.getReviewCount() == null ? 0 : poi.getReviewCount();
         holder.scoreText.setText(String.format(Locale.CHINA, "%.1f 分 · %d 条测评", score, count));
@@ -70,12 +71,14 @@ public class PoiAdapter extends RecyclerView.Adapter<PoiAdapter.PoiViewHolder> {
     static class PoiViewHolder extends RecyclerView.ViewHolder {
         final TextView nameText;
         final TextView metaText;
+        final TextView addressText;
         final TextView scoreText;
 
         PoiViewHolder(@NonNull View itemView) {
             super(itemView);
             nameText = itemView.findViewById(R.id.poiNameText);
             metaText = itemView.findViewById(R.id.poiMetaText);
+            addressText = itemView.findViewById(R.id.poiAddressText);
             scoreText = itemView.findViewById(R.id.poiScoreText);
         }
     }

@@ -1,12 +1,14 @@
 package com.example.campuscomments;
 
 import android.Manifest;
-import android.content.Intent;
+import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,26 +26,42 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.services.core.AMapException;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.example.campuscomments.model.CampusPoi;
 import com.example.campuscomments.util.WindowInsetUtils;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 
 public class MapActivity extends AppCompatActivity {
+    private static final LatLng BJTU_MAIN_CAMPUS = new LatLng(39.9512, 116.3486);
+
     private MapView mapView;
     private AMap aMap;
     private ProgressBar progressBar;
     private Spinner typeSpinner;
+    private TextInputEditText mapSearchInput;
+    private PoiSearch poiSearch;
+
     private final ActivityResultLauncher<String> locationPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
                 if (granted) {
                     enableMyLocation();
                 } else {
-                    Toast.makeText(this, "未授权定位，仍可查看兴趣点", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "未授权定位，仍可查看和添加兴趣点", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -59,23 +77,26 @@ public class MapActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         typeSpinner = findViewById(R.id.typeSpinner);
+        mapSearchInput = findViewById(R.id.mapSearchInput);
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         aMap = mapView.getMap();
+
         typeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
                 new String[]{"全部", "教学楼", "食堂", "餐厅", "自习室", "宿舍", "运动场", "其他"}));
         aMap.getUiSettings().setZoomControlsEnabled(true);
-        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(39.9042, 116.4074), 15f));
+        aMap.getUiSettings().setMyLocationButtonEnabled(false);
+        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BJTU_MAIN_CAMPUS, 16f));
         aMap.setOnMarkerClickListener(this::onMarkerClick);
-        aMap.setOnMapLongClickListener(latLng -> {
-            Intent intent = new Intent(this, PoiEditActivity.class);
-            intent.putExtra("latitude", latLng.latitude);
-            intent.putExtra("longitude", latLng.longitude);
-            startActivity(intent);
+        aMap.setOnMapClickListener(latLng -> showAddPoiSheet(latLng, null));
+
+        findViewById(R.id.searchButton).setOnClickListener(v -> searchAmapPoi());
+        findViewById(R.id.filterButton).setOnClickListener(v -> loadPoiMarkers());
+        mapSearchInput.setOnEditorActionListener((v, actionId, event) -> {
+            searchAmapPoi();
+            return true;
         });
 
-        findViewById(R.id.addPoiButton).setOnClickListener(v -> startActivity(new Intent(this, PoiEditActivity.class)));
-        findViewById(R.id.filterButton).setOnClickListener(v -> loadPoiMarkers());
         ensureLocationPermission();
         loadPoiMarkers();
     }
@@ -119,6 +140,147 @@ public class MapActivity extends AppCompatActivity {
         }
     }
 
+    private void searchAmapPoi() {
+        String keyword = mapSearchInput.getText() == null ? "" : mapSearchInput.getText().toString().trim();
+        if (TextUtils.isEmpty(keyword)) {
+            Toast.makeText(this, "请输入地点关键词", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        PoiSearch.Query query = new PoiSearch.Query(keyword, "", "");
+        query.setPageSize(10);
+        query.setPageNum(1);
+        try {
+            poiSearch = new PoiSearch(this, query);
+            poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
+                @Override
+                public void onPoiSearched(PoiResult result, int rCode) {
+                    if (result == null || result.getPois() == null || result.getPois().isEmpty()) {
+                        Toast.makeText(MapActivity.this, "没有找到相关地点", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    showPoiResults(result.getPois());
+                }
+
+                @Override
+                public void onPoiItemSearched(PoiItem poiItem, int rCode) {
+                }
+            });
+            poiSearch.searchPOIAsyn();
+        } catch (AMapException e) {
+            Toast.makeText(this, "搜索初始化失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showPoiResults(List<PoiItem> pois) {
+        List<String> names = new ArrayList<>();
+        for (PoiItem item : pois) {
+            names.add(item.getTitle() + "\n" + item.getSnippet());
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("选择地点")
+                .setItems(names.toArray(new String[0]), (dialog, which) -> {
+                    PoiItem item = pois.get(which);
+                    if (item.getLatLonPoint() == null) {
+                        Toast.makeText(this, "该地点缺少坐标", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    LatLng latLng = new LatLng(item.getLatLonPoint().getLatitude(), item.getLatLonPoint().getLongitude());
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f));
+                    showAddPoiSheet(latLng, item);
+                })
+                .show();
+    }
+
+    private void showAddPoiSheet(LatLng latLng, PoiItem poiItem) {
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        View content = getLayoutInflater().inflate(R.layout.bottom_sheet_add_poi, null);
+        dialog.setContentView(content);
+
+        TextInputEditText nameInput = content.findViewById(R.id.sheetNameInput);
+        TextInputEditText addressInput = content.findViewById(R.id.sheetAddressInput);
+        TextInputEditText descriptionInput = content.findViewById(R.id.sheetDescriptionInput);
+        Spinner sheetTypeSpinner = content.findViewById(R.id.sheetTypeSpinner);
+        MaterialButton cancelButton = content.findViewById(R.id.sheetCancelButton);
+        MaterialButton saveButton = content.findViewById(R.id.sheetSaveButton);
+
+        sheetTypeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                new String[]{"教学楼", "食堂", "餐厅", "自习室", "宿舍", "运动场", "其他"}));
+        if (poiItem != null) {
+            nameInput.setText(poiItem.getTitle());
+            addressInput.setText(poiItem.getSnippet());
+        } else {
+            addressInput.setText("地图选点");
+        }
+
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+        saveButton.setOnClickListener(v -> savePoiFromSheet(
+                dialog,
+                saveButton,
+                latLng,
+                poiItem == null ? "" : poiItem.getPoiId(),
+                nameInput,
+                addressInput,
+                descriptionInput,
+                sheetTypeSpinner));
+
+        dialog.setOnShowListener(d -> {
+            View bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            if (bottomSheet != null) {
+                ViewGroup.LayoutParams params = bottomSheet.getLayoutParams();
+                params.height = getResources().getDisplayMetrics().heightPixels / 2;
+                bottomSheet.setLayoutParams(params);
+                BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
+        dialog.show();
+    }
+
+    private void savePoiFromSheet(BottomSheetDialog dialog,
+                                  MaterialButton saveButton,
+                                  LatLng latLng,
+                                  String amapPoiId,
+                                  TextInputEditText nameInput,
+                                  TextInputEditText addressInput,
+                                  TextInputEditText descriptionInput,
+                                  Spinner typeSpinner) {
+        CampusUser user = BmobUser.getCurrentUser(CampusUser.class);
+        if (user == null) {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String name = nameInput.getText() == null ? "" : nameInput.getText().toString().trim();
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(this, "请填写地点名称", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        saveButton.setEnabled(false);
+        CampusPoi poi = new CampusPoi();
+        poi.setName(name);
+        poi.setType(AppConstants.typeFromPosition(typeSpinner.getSelectedItemPosition()));
+        poi.setLatitude(latLng.latitude);
+        poi.setLongitude(latLng.longitude);
+        poi.setAddress(addressInput.getText() == null ? "" : addressInput.getText().toString().trim());
+        poi.setDescription(descriptionInput.getText() == null ? "" : descriptionInput.getText().toString().trim());
+        poi.setAmapPoiId(amapPoiId);
+        poi.setAvgScore(0.0);
+        poi.setReviewCount(0);
+        poi.setCreatedBy(user);
+        poi.save(new SaveListener<String>() {
+            @Override
+            public void done(String objectId, BmobException e) {
+                saveButton.setEnabled(true);
+                if (e == null) {
+                    Toast.makeText(MapActivity.this, "兴趣点已保存", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    loadPoiMarkers();
+                } else {
+                    Toast.makeText(MapActivity.this, "保存失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private void loadPoiMarkers() {
         if (aMap == null) return;
         progressBar.setVisibility(View.VISIBLE);
@@ -133,6 +295,9 @@ public class MapActivity extends AppCompatActivity {
             public void done(List<CampusPoi> pois, BmobException e) {
                 progressBar.setVisibility(View.GONE);
                 if (e == null) {
+                    if (pois == null) {
+                        pois = new ArrayList<>();
+                    }
                     aMap.clear();
                     for (CampusPoi poi : pois) {
                         addMarker(poi);
@@ -159,7 +324,7 @@ public class MapActivity extends AppCompatActivity {
     private boolean onMarkerClick(Marker marker) {
         Object object = marker.getObject();
         if (object instanceof String) {
-            Intent intent = new Intent(this, PoiDetailActivity.class);
+            android.content.Intent intent = new android.content.Intent(this, PoiDetailActivity.class);
             intent.putExtra(AppConstants.EXTRA_POI_OBJECT_ID, (String) object);
             startActivity(intent);
             return true;

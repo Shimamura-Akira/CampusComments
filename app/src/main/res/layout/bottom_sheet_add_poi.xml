@@ -1,66 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    android:fillViewport="true"
-    tools:context=".RegisterActivity">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="@dimen/space_lg">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="注册校园点评账号"
-            android:textAppearance="@style/TextAppearance.Campus.Display" />
+            android:text="添加兴趣点"
+            android:textAppearance="@style/TextAppearance.Campus.Headline" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_sm"
-            android:text="创建账号后即可同步你的兴趣点和测评。"
+            android:layout_marginTop="@dimen/space_xs"
+            android:text="完善必要信息后保存到校园点评。"
             android:textAppearance="@style/TextAppearance.Campus.Body" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Campus.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xl"
-            android:hint="账号">
+            android:layout_marginTop="@dimen/space_lg"
+            android:hint="地点名称">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/usernameInput"
+                android:id="@+id/sheetNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="username"
-                android:importantForAutofill="yes"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Campus.Card.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md">
+
+            <Spinner
+                android:id="@+id/sheetTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_target"
+                android:paddingStart="@dimen/space_md"
+                android:paddingEnd="@dimen/space_md" />
+        </com.google.android.material.card.MaterialCardView>
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Campus.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_md"
-            android:hint="昵称，可不填">
+            android:hint="地址">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nicknameInput"
+                android:id="@+id/sheetAddressInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="name"
-                android:importantForAutofill="yes"
                 android:imeOptions="actionNext"
-                android:inputType="textPersonName"
+                android:inputType="textPostalAddress"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,46 +75,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_md"
-            android:hint="密码"
-            app:endIconMode="password_toggle">
+            android:hint="描述">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordInput"
+                android:id="@+id/sheetDescriptionInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="newPassword"
-                android:importantForAutofill="yes"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
-                android:maxLines="1" />
+                android:layout_height="96dp"
+                android:gravity="top"
+                android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.Campus.TextInputLayout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_md"
-            android:hint="确认密码"
-            app:endIconMode="password_toggle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/confirmPasswordInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="newPassword"
-                android:importantForAutofill="yes"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/registerButton"
-            style="@style/Widget.Campus.Button"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/touch_target"
             android:layout_marginTop="@dimen/space_lg"
-            android:text="注册" />
+            android:orientation="horizontal">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sheetCancelButton"
+                style="@style/Widget.Campus.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/touch_target"
+                android:layout_weight="1"
+                android:text="取消" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sheetSaveButton"
+                style="@style/Widget.Campus.Button"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/touch_target"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_weight="1"
+                android:text="保存" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

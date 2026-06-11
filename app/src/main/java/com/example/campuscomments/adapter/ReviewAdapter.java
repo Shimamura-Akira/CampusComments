@@ -38,7 +38,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         Review review = reviews.get(position);
         CampusUser author = review.getAuthor();
         String userName = author == null ? "匿名同学" : firstNonEmpty(author.getNickname(), author.getUsername(), "匿名同学");
-        holder.authorText.setText(userName + " · " + safeScore(review.getScore()) + " 分");
+        holder.authorText.setText(userName);
+        holder.scoreText.setText(safeScore(review.getScore()) + " 分");
         holder.contentText.setText(firstNonEmpty(review.getContent(), "暂无文字测评"));
         holder.tagText.setText(firstNonEmpty(review.getTags(), "无标签"));
     }
@@ -63,12 +64,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     static class ReviewViewHolder extends RecyclerView.ViewHolder {
         final TextView authorText;
+        final TextView scoreText;
         final TextView contentText;
         final TextView tagText;
 
         ReviewViewHolder(@NonNull View itemView) {
             super(itemView);
             authorText = itemView.findViewById(R.id.reviewAuthorText);
+            scoreText = itemView.findViewById(R.id.reviewScoreText);
             contentText = itemView.findViewById(R.id.reviewContentText);
             tagText = itemView.findViewById(R.id.reviewTagText);
         }

@@ -1,7 +1,32 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.CampusComments" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/campus_primary</item>
+        <item name="colorOnPrimary">@color/campus_on_primary</item>
+        <item name="colorPrimaryContainer">@color/campus_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/campus_on_primary_container</item>
+        <item name="colorSecondary">@color/campus_secondary</item>
+        <item name="colorOnSecondary">@color/campus_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/campus_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/campus_on_secondary_container</item>
+        <item name="colorTertiary">@color/campus_tertiary</item>
+        <item name="colorOnTertiary">@color/campus_on_tertiary</item>
+        <item name="colorTertiaryContainer">@color/campus_tertiary_container</item>
+        <item name="colorOnTertiaryContainer">@color/campus_on_tertiary_container</item>
+        <item name="android:colorBackground">@color/campus_background</item>
+        <item name="colorOnBackground">@color/campus_on_background</item>
+        <item name="colorSurface">@color/campus_surface</item>
+        <item name="colorOnSurface">@color/campus_on_surface</item>
+        <item name="colorSurfaceVariant">@color/campus_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/campus_on_surface_variant</item>
+        <item name="colorSurfaceContainer">@color/campus_surface_container</item>
+        <item name="colorSurfaceContainerHigh">@color/campus_surface_container_high</item>
+        <item name="colorOutline">@color/campus_outline</item>
+        <item name="colorError">@color/campus_error</item>
+        <item name="colorOnError">@color/campus_on_error</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/campus_surface</item>
+        <item name="materialButtonStyle">@style/Widget.Campus.Button</item>
+        <item name="textInputStyle">@style/Widget.Campus.TextInputLayout</item>
     </style>
 </resources>

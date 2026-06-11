@@ -1,99 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/space_lg">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="添加兴趣点"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.Campus.Headline" />
 
-        <EditText
-            android:id="@+id/searchInput"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="20dp"
-            android:hint="搜索高德地点，例如图书馆"
-            android:maxLines="1" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
+            android:text="可以搜索高德地点，也可以手动填写位置。"
+            android:textAppearance="@style/TextAppearance.Campus.Body" />
 
-        <Button
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Campus.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:hint="搜索高德地点，例如图书馆">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/searchButton"
+            style="@style/Widget.Campus.Button.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:text="搜索并填充" />
+            android:layout_height="@dimen/touch_target"
+            android:layout_marginTop="@dimen/space_sm"
+            android:text="搜索并填充"
+            app:icon="@drawable/ic_search_24" />
 
-        <EditText
-            android:id="@+id/nameInput"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Campus.TextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="20dp"
-            android:hint="地点名称"
-            android:maxLines="1" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:hint="地点名称">
 
-        <Spinner
-            android:id="@+id/typeSpinner"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Campus.Card.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md">
 
-        <EditText
-            android:id="@+id/addressInput"
+            <Spinner
+                android:id="@+id/typeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_target"
+                android:paddingStart="@dimen/space_md"
+                android:paddingEnd="@dimen/space_md" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Campus.TextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:hint="地址"
-            android:maxLines="1" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:hint="地址">
 
-        <EditText
-            android:id="@+id/descriptionInput"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addressInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="textPostalAddress"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Campus.TextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginTop="12dp"
-            android:gravity="top"
-            android:hint="描述"
-            android:inputType="textMultiLine" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:hint="描述">
 
-        <EditText
-            android:id="@+id/latitudeInput"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descriptionInput"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:gravity="top"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Campus.TextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:hint="纬度"
-            android:inputType="numberDecimal|numberSigned"
-            android:maxLines="1" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:hint="纬度">
 
-        <EditText
-            android:id="@+id/longitudeInput"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/latitudeInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal|numberSigned"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Campus.TextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:hint="经度"
-            android:inputType="numberDecimal|numberSigned"
-            android:maxLines="1" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:hint="经度">
 
-        <EditText
-            android:id="@+id/amapPoiIdInput"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/longitudeInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal|numberSigned"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Campus.TextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:hint="高德 POI ID，可自动填充"
-            android:maxLines="1" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:hint="高德 POI ID，可自动填充">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amapPoiIdInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
+            style="@style/Widget.Campus.Button"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="24dp"
-            android:text="保存兴趣点" />
+            android:layout_height="@dimen/touch_target"
+            android:layout_marginTop="@dimen/space_lg"
+            android:text="保存兴趣点"
+            app:icon="@drawable/ic_add_24" />
 
     </LinearLayout>
 </ScrollView>
