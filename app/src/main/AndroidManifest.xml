@@ -28,6 +28,37 @@
             android:authorities="${applicationId}.BmobContentProvider"
             android:exported="false" />
 
+        <provider
+            android:name=".provider.CampusContentProvider"
+            android:authorities="com.example.campuscomments.provider"
+            android:exported="false" />
+
+        <receiver
+            android:name=".receiver.NetworkChangeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".MyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PoiEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReviewEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PoiDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PoiListActivity"
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />

@@ -1,0 +1,63 @@
+package com.example.campuscomments.model;
+
+import com.example.campuscomments.CampusUser;
+
+import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
+
+public class Review extends BmobObject {
+    private CampusPoi poi;
+    private CampusUser author;
+    private Integer score;
+    private String content;
+    private String tags;
+    private BmobFile image;
+
+    public CampusPoi getPoi() {
+        return poi;
+    }
+
+    public void setPoi(CampusPoi poi) {
+        this.poi = poi;
+    }
+
+    public CampusUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(CampusUser author) {
+        this.author = author;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public BmobFile getImage() {
+        return image;
+    }
+
+    public void setImage(BmobFile image) {
+        this.image = image;
+    }
+}

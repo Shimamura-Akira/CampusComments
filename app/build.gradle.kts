@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("com.amap.api:3dmap-location-search:10.1.200_loc6.4.9_sea9.7.4")
     implementation("io.github.bmob:android-sdk:4.2.1")
     implementation("io.reactivex.rxjava3:rxjava:3.1.9")
