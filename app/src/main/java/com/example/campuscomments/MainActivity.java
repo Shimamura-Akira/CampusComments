@@ -75,7 +75,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView listEmptyText;
     private TextView favoriteEmptyText;
     private TextView myReviewEmptyText;
-    private TextView userText;
+    private TextView userAvatarText;
+    private TextView userNameText;
+    private TextView userAccountText;
+    private TextView favoriteCountText;
+    private TextView reviewCountText;
     private ProgressBar listProgressBar;
 
     private ReviewAdapter randomReviewAdapter;
@@ -156,7 +160,11 @@ public class MainActivity extends AppCompatActivity {
         listEmptyText = findViewById(R.id.listEmptyText);
         favoriteEmptyText = findViewById(R.id.favoriteEmptyText);
         myReviewEmptyText = findViewById(R.id.myReviewEmptyText);
-        userText = findViewById(R.id.userText);
+        userAvatarText = findViewById(R.id.userAvatarText);
+        userNameText = findViewById(R.id.userNameText);
+        userAccountText = findViewById(R.id.userAccountText);
+        favoriteCountText = findViewById(R.id.favoriteCountText);
+        reviewCountText = findViewById(R.id.reviewCountText);
         listProgressBar = findViewById(R.id.listProgressBar);
     }
 
@@ -217,16 +225,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MaterialButton logoutButton = findViewById(R.id.logoutButton);
+        ImageButton logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(v -> {
             BmobUser.logOut();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
 
-        userText.setText(String.format(Locale.CHINA, "账号：%s\n昵称：%s",
-                firstNonEmpty(currentUser.getUsername(), "未设置"),
-                firstNonEmpty(currentUser.getNickname(), "未设置")));
+        String displayName = firstNonEmpty(currentUser.getNickname(), currentUser.getUsername(), "同学");
+        String school = firstNonEmpty(currentUser.getSchool(), "北京交通大学");
+        userAvatarText.setText(displayName.substring(0, 1).toUpperCase(Locale.CHINA));
+        userNameText.setText(displayName);
+        userAccountText.setText("@" + firstNonEmpty(currentUser.getUsername(), "未设置") + " · " + school);
     }
 
     private void setupRecycler(int recyclerId, RecyclerView.Adapter<?> adapter) {
@@ -416,8 +426,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     favoriteAdapter.submitList(pois);
+                    favoriteCountText.setText(String.format(Locale.CHINA, "%d 收藏", pois.size()));
                     favoriteEmptyText.setVisibility(pois.isEmpty() ? View.VISIBLE : View.GONE);
                 } else {
+                    favoriteCountText.setText("0 收藏");
                     favoriteEmptyText.setVisibility(View.VISIBLE);
                 }
             }
@@ -437,8 +449,10 @@ public class MainActivity extends AppCompatActivity {
                         reviews = new ArrayList<>();
                     }
                     myReviewAdapter.submitList(reviews);
+                    reviewCountText.setText(String.format(Locale.CHINA, "%d 测评", reviews.size()));
                     myReviewEmptyText.setVisibility(reviews.isEmpty() ? View.VISIBLE : View.GONE);
                 } else {
+                    reviewCountText.setText("0 测评");
                     myReviewEmptyText.setVisibility(View.VISIBLE);
                 }
             }
