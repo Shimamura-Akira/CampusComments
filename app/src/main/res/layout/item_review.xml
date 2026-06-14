@@ -37,6 +37,14 @@
             android:textColor="@color/campus_on_tertiary_container" />
 
         <TextView
+            android:id="@+id/reviewPoiText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:textAppearance="@style/TextAppearance.Campus.Title"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/reviewContentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

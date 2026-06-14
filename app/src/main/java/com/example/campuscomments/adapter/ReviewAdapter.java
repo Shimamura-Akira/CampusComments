@@ -40,6 +40,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         String userName = author == null ? "匿名同学" : firstNonEmpty(author.getNickname(), author.getUsername(), "匿名同学");
         holder.authorText.setText(userName);
         holder.scoreText.setText(safeScore(review.getScore()) + " 分");
+        if (review.getPoi() != null && review.getPoi().getName() != null && !review.getPoi().getName().trim().isEmpty()) {
+            holder.poiText.setText(review.getPoi().getName());
+            holder.poiText.setVisibility(View.VISIBLE);
+        } else {
+            holder.poiText.setVisibility(View.GONE);
+        }
         holder.contentText.setText(firstNonEmpty(review.getContent(), "暂无文字测评"));
         holder.tagText.setText(firstNonEmpty(review.getTags(), "无标签"));
     }
@@ -65,6 +71,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     static class ReviewViewHolder extends RecyclerView.ViewHolder {
         final TextView authorText;
         final TextView scoreText;
+        final TextView poiText;
         final TextView contentText;
         final TextView tagText;
 
@@ -72,6 +79,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             super(itemView);
             authorText = itemView.findViewById(R.id.reviewAuthorText);
             scoreText = itemView.findViewById(R.id.reviewScoreText);
+            poiText = itemView.findViewById(R.id.reviewPoiText);
             contentText = itemView.findViewById(R.id.reviewContentText);
             tagText = itemView.findViewById(R.id.reviewTagText);
         }

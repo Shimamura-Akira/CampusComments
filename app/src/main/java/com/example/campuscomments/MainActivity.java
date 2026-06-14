@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private View listSection;
     private View favoriteSection;
     private View mySection;
+    private View myReviewsSection;
     private ImageButton homeTab;
     private ImageButton listTab;
     private ImageButton addTab;
@@ -147,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         listSection = findViewById(R.id.listSection);
         favoriteSection = findViewById(R.id.favoriteSection);
         mySection = findViewById(R.id.mySection);
+        myReviewsSection = findViewById(R.id.myReviewsSection);
         homeTab = findViewById(R.id.homeTab);
         listTab = findViewById(R.id.listTab);
         addTab = findViewById(R.id.addTab);
@@ -237,6 +240,25 @@ public class MainActivity extends AppCompatActivity {
         userAvatarText.setText(displayName.substring(0, 1).toUpperCase(Locale.CHINA));
         userNameText.setText(displayName);
         userAccountText.setText("@" + firstNonEmpty(currentUser.getUsername(), "未设置") + " · " + school);
+
+        findViewById(R.id.favoriteSummaryCard).setOnClickListener(v -> {
+            showTab(favoriteSection, favoriteTab);
+            loadFavorites();
+        });
+        findViewById(R.id.reviewSummaryCard).setOnClickListener(v -> showMyReviews());
+        findViewById(R.id.myReviewsBackButton).setOnClickListener(v -> showTab(mySection, myTab));
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (myReviewsSection.getVisibility() == View.VISIBLE) {
+                    showTab(mySection, myTab);
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
+        });
     }
 
     private void setupRecycler(int recyclerId, RecyclerView.Adapter<?> adapter) {
@@ -251,12 +273,27 @@ public class MainActivity extends AppCompatActivity {
         listSection.setVisibility(section == listSection ? View.VISIBLE : View.GONE);
         favoriteSection.setVisibility(section == favoriteSection ? View.VISIBLE : View.GONE);
         mySection.setVisibility(section == mySection ? View.VISIBLE : View.GONE);
+        myReviewsSection.setVisibility(View.GONE);
 
         setTabSelected(homeTab, selectedTab == homeTab);
         setTabSelected(listTab, selectedTab == listTab);
         setTabSelected(favoriteTab, selectedTab == favoriteTab);
         setTabSelected(myTab, selectedTab == myTab);
         setTabSelected(addTab, false);
+    }
+
+    private void showMyReviews() {
+        homeSection.setVisibility(View.GONE);
+        listSection.setVisibility(View.GONE);
+        favoriteSection.setVisibility(View.GONE);
+        mySection.setVisibility(View.GONE);
+        myReviewsSection.setVisibility(View.VISIBLE);
+        setTabSelected(homeTab, false);
+        setTabSelected(listTab, false);
+        setTabSelected(favoriteTab, false);
+        setTabSelected(myTab, true);
+        setTabSelected(addTab, false);
+        loadMyReviews();
     }
 
     private void setTabSelected(ImageButton tab, boolean selected) {

@@ -302,10 +302,15 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/favoriteSummaryCard"
                         style="@style/Widget.Campus.Card"
                         android:layout_width="0dp"
                         android:layout_height="112dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:contentDescription="查看我的收藏"
+                        android:focusable="true"
+                        app:rippleColor="?attr/colorPrimaryContainer">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -332,11 +337,16 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/reviewSummaryCard"
                         style="@style/Widget.Campus.Card"
                         android:layout_width="0dp"
                         android:layout_height="112dp"
                         android:layout_marginStart="@dimen/space_md"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:contentDescription="查看我发表的测评"
+                        android:focusable="true"
+                        app:rippleColor="?attr/colorPrimaryContainer">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -363,31 +373,61 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_xl"
-                    android:text="测评记录"
-                    android:textAppearance="@style/TextAppearance.Campus.Title" />
-
-                <TextView
-                    android:id="@+id/myReviewEmptyText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/space_lg"
-                    android:text="暂无测评记录"
-                    android:textAppearance="@style/TextAppearance.Campus.Body"
-                    android:visibility="gone" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/myReviewRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_md"
-                    android:nestedScrollingEnabled="false" />
             </LinearLayout>
         </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/myReviewsSection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurface"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_target"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/myReviewsBackButton"
+                    android:layout_width="@dimen/touch_target"
+                    android:layout_height="@dimen/touch_target"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="返回我的"
+                    android:padding="14dp"
+                    android:src="@drawable/ic_arrow_back_24"
+                    android:tint="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:text="我的测评"
+                    android:textAppearance="@style/TextAppearance.Campus.Headline" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/myReviewEmptyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/space_lg"
+                android:text="暂无测评记录"
+                android:textAppearance="@style/TextAppearance.Campus.Body"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/myReviewRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/space_md"
+                android:clipToPadding="false"
+                android:layout_weight="1" />
+        </LinearLayout>
     </FrameLayout>
 
     <LinearLayout
