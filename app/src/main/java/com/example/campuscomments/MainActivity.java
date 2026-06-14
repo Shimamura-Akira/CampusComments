@@ -252,7 +252,9 @@ public class MainActivity extends AppCompatActivity {
     private void setTabSelected(ImageButton tab, boolean selected) {
         tab.setSelected(selected);
         tab.setBackgroundResource(selected ? R.drawable.bg_nav_selected : android.R.color.transparent);
-        tab.setColorFilter(ContextCompat.getColor(this, selected ? R.color.campus_primary : R.color.white));
+        tab.setColorFilter(ContextCompat.getColor(
+                this,
+                selected ? R.color.campus_nav_selected_icon : R.color.campus_nav_icon));
     }
 
     private void ensureLocationForNearbyList() {

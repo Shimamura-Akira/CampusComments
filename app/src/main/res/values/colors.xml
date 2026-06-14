@@ -25,6 +25,11 @@
     <color name="campus_outline">#CFCBC4</color>
     <color name="campus_error">#BA1A1A</color>
     <color name="campus_on_error">#FFFFFF</color>
+    <color name="campus_nav_background">#151A1F</color>
+    <color name="campus_nav_outline">#151A1F</color>
+    <color name="campus_nav_icon">#BFC5CB</color>
+    <color name="campus_nav_selected_background">#F5F4F0</color>
+    <color name="campus_nav_selected_icon">#151A1F</color>
     <color name="campus_photo_start">#7DC8D7</color>
     <color name="campus_photo_mid">#EAA15B</color>
     <color name="campus_photo_end">#1E252C</color>

@@ -58,7 +58,7 @@
         <item name="cardCornerRadius">@dimen/corner_lg</item>
         <item name="strokeColor">?attr/colorOutline</item>
         <item name="strokeWidth">1dp</item>
-        <item name="cardBackgroundColor">?attr/colorSurface</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
     </style>
 
     <style name="Widget.Campus.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
