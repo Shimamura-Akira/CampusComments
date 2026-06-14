@@ -42,6 +42,7 @@ public class PoiEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi_edit);
         WindowInsetUtils.applySystemBars(this);
+        WindowInsetUtils.bindBackButton(this);
 
         nameInput = findViewById(R.id.nameInput);
         typeSpinner = findViewById(R.id.typeSpinner);

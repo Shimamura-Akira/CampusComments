@@ -76,4 +76,14 @@
         <item name="android:padding">16dp</item>
         <item name="android:scaleType">center</item>
     </style>
+
+    <style name="Widget.Campus.BackButton" parent="@android:style/Widget.ImageButton">
+        <item name="android:layout_width">@dimen/touch_target</item>
+        <item name="android:layout_height">@dimen/touch_target</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:contentDescription">返回</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:src">@drawable/ic_arrow_back_24</item>
+        <item name="android:tint">?attr/colorOnSurface</item>
+    </style>
 </resources>

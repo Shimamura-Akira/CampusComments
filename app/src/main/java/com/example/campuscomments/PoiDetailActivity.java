@@ -50,6 +50,7 @@ public class PoiDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi_detail);
         WindowInsetUtils.applySystemBars(this);
+        WindowInsetUtils.bindBackButton(this);
 
         poiObjectId = getIntent().getStringExtra(AppConstants.EXTRA_POI_OBJECT_ID);
         if (TextUtils.isEmpty(poiObjectId)) {

@@ -26,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         WindowInsetUtils.applySystemBars(this);
+        WindowInsetUtils.bindBackButton(this);
 
         usernameInput = findViewById(R.id.usernameInput);
         nicknameInput = findViewById(R.id.nicknameInput);

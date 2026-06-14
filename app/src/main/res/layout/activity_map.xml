@@ -31,21 +31,34 @@
             android:orientation="vertical"
             android:padding="@dimen/space_md">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Campus.TextInputLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="搜索高德地点"
-                app:startIconDrawable="@drawable/ic_search_24">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/mapSearchInput"
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:id="@+id/backButton"
+                    style="@style/Widget.Campus.BackButton" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Campus.TextInputLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginStart="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:hint="搜索高德地点"
+                    app:startIconDrawable="@drawable/ic_search_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/mapSearchInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

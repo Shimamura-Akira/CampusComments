@@ -7,11 +7,24 @@
     android:orientation="vertical"
     android:padding="@dimen/space_lg">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="选择你的下一站"
-        android:textAppearance="@style/TextAppearance.Campus.Display" />
+        android:layout_height="@dimen/touch_target"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            style="@style/Widget.Campus.BackButton" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_sm"
+            android:layout_weight="1"
+            android:text="选择你的下一站"
+            android:textAppearance="@style/TextAppearance.Campus.Headline" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"

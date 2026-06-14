@@ -34,6 +34,7 @@ public class MyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         WindowInsetUtils.applySystemBars(this);
+        WindowInsetUtils.bindBackButton(this);
 
         currentUser = BmobUser.getCurrentUser(CampusUser.class);
         if (currentUser == null) {

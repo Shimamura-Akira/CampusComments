@@ -19,12 +19,25 @@
             android:layout_height="4dp"
             android:indeterminate="true" />
 
-        <TextView
-            android:id="@+id/titleText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/touch_target"
             android:layout_marginTop="@dimen/space_md"
-            android:textAppearance="@style/TextAppearance.Campus.Headline" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                style="@style/Widget.Campus.BackButton" />
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.Campus.Headline" />
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Campus.Card"

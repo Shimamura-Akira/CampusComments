@@ -86,6 +86,7 @@ public class MapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         WindowInsetUtils.applySystemBars(this);
+        WindowInsetUtils.bindBackButton(this);
 
         progressBar = findViewById(R.id.progressBar);
         typeSpinner = findViewById(R.id.typeSpinner);

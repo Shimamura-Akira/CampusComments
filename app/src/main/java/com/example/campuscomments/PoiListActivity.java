@@ -39,6 +39,7 @@ public class PoiListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi_list);
         WindowInsetUtils.applySystemBars(this);
+        WindowInsetUtils.bindBackButton(this);
 
         databaseHelper = new LocalDatabaseHelper(this);
         progressBar = findViewById(R.id.progressBar);

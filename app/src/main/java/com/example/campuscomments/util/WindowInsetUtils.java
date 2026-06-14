@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedDispatcherOwner;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.campuscomments.R;
 
 public final class WindowInsetUtils {
     private WindowInsetUtils() {
@@ -36,5 +39,19 @@ public final class WindowInsetUtils {
         });
 
         ViewCompat.requestApplyInsets(root);
+    }
+
+    public static void bindBackButton(Activity activity) {
+        View backButton = activity.findViewById(R.id.backButton);
+        if (backButton == null) {
+            return;
+        }
+        backButton.setOnClickListener(view -> {
+            if (activity instanceof OnBackPressedDispatcherOwner) {
+                ((OnBackPressedDispatcherOwner) activity).getOnBackPressedDispatcher().onBackPressed();
+            } else {
+                activity.onBackPressed();
+            }
+        });
     }
 }

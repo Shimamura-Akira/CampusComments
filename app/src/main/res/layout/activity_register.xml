@@ -15,9 +15,15 @@
         android:orientation="vertical"
         android:padding="@dimen/space_lg">
 
+        <ImageButton
+            android:id="@+id/backButton"
+            style="@style/Widget.Campus.BackButton"
+            android:layout_gravity="start" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
             android:text="注册校园点评账号"
             android:textAppearance="@style/TextAppearance.Campus.Display" />
 
