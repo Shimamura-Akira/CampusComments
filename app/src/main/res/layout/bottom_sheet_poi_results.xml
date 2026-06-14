@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/space_lg"
+    android:paddingTop="@dimen/space_md"
+    android:paddingEnd="@dimen/space_lg">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_sheet_handle" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_lg"
+        android:text="搜索结果"
+        android:textAppearance="@style/TextAppearance.Campus.Headline" />
+
+    <TextView
+        android:id="@+id/searchCenterHintText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xs"
+        android:text="5 公里内，按距离由近到远"
+        android:textAppearance="@style/TextAppearance.Campus.Body" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/amapPoiResultRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_md"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/space_lg"
+        android:layout_weight="1" />
+</LinearLayout>
