@@ -17,7 +17,9 @@ import com.example.campuscomments.adapter.ReviewAdapter;
 import com.example.campuscomments.model.CampusPoi;
 import com.example.campuscomments.model.Favorite;
 import com.example.campuscomments.model.Review;
+import com.example.campuscomments.util.ReviewDeleteUtils;
 import com.example.campuscomments.util.WindowInsetUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 import java.util.Locale;
@@ -71,7 +73,10 @@ public class PoiDetailActivity extends AppCompatActivity {
         Button reviewButton = findViewById(R.id.reviewButton);
         RecyclerView reviewRecyclerView = findViewById(R.id.reviewRecyclerView);
 
-        reviewAdapter = new ReviewAdapter();
+        CampusUser currentUser = BmobUser.getCurrentUser(CampusUser.class);
+        reviewAdapter = new ReviewAdapter(
+                currentUser == null ? null : currentUser.getObjectId(),
+                this::confirmDeleteReview);
         reviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         reviewRecyclerView.setAdapter(reviewAdapter);
 
@@ -114,7 +119,7 @@ public class PoiDetailActivity extends AppCompatActivity {
         ref.setObjectId(poiObjectId);
         BmobQuery<Review> query = new BmobQuery<>();
         query.addWhereEqualTo("poi", ref);
-        query.include("author");
+        query.include("author,poi");
         query.order("-createdAt");
         query.findObjects(new FindListener<Review>() {
             @Override
@@ -127,6 +132,25 @@ public class PoiDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void confirmDeleteReview(Review review) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("删除测评")
+                .setMessage("删除后无法恢复，确定删除这条测评吗？")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("删除", (dialog, which) ->
+                        ReviewDeleteUtils.deleteOwnedReview(review, (deleted, errorMessage) -> {
+                            if (deleted) {
+                                Toast.makeText(this, "测评已删除", Toast.LENGTH_SHORT).show();
+                                loadReviews();
+                                loadPoi();
+                            }
+                            if (errorMessage != null) {
+                                Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                            }
+                        }))
+                .show();
     }
 
     private void loadFavoriteState() {

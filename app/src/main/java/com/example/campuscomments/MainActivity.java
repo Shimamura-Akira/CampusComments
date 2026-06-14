@@ -33,8 +33,10 @@ import com.example.campuscomments.adapter.ReviewAdapter;
 import com.example.campuscomments.model.CampusPoi;
 import com.example.campuscomments.model.Favorite;
 import com.example.campuscomments.model.Review;
+import com.example.campuscomments.util.ReviewDeleteUtils;
 import com.example.campuscomments.util.WindowInsetUtils;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -206,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
         randomReviewAdapter = new ReviewAdapter();
         listAdapter = new PoiAdapter(this::openPoiDetail);
         favoriteAdapter = new PoiAdapter(this::openPoiDetail);
-        myReviewAdapter = new ReviewAdapter();
+        myReviewAdapter = new ReviewAdapter(currentUser.getObjectId(), this::confirmDeleteReview);
 
         setupRecycler(R.id.randomReviewRecyclerView, randomReviewAdapter);
         setupRecycler(R.id.nearbyPoiRecyclerView, listAdapter);
@@ -494,6 +496,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void confirmDeleteReview(Review review) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("删除测评")
+                .setMessage("删除后无法恢复，确定删除这条测评吗？")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("删除", (dialog, which) ->
+                        ReviewDeleteUtils.deleteOwnedReview(review, (deleted, errorMessage) -> {
+                            if (deleted) {
+                                Toast.makeText(this, "测评已删除", Toast.LENGTH_SHORT).show();
+                                loadMyReviews();
+                                loadRandomReviews();
+                                loadNearbyPois();
+                            }
+                            if (errorMessage != null) {
+                                Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                            }
+                        }))
+                .show();
     }
 
     private void openPoiDetail(CampusPoi poi) {

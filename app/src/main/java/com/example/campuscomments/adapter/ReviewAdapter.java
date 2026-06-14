@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +17,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
+    public interface OnDeleteClickListener {
+        void onDeleteClick(Review review);
+    }
+
     private final List<Review> reviews = new ArrayList<>();
+    private final String currentUserId;
+    private final OnDeleteClickListener deleteListener;
+
+    public ReviewAdapter() {
+        this(null, null);
+    }
+
+    public ReviewAdapter(String currentUserId, OnDeleteClickListener deleteListener) {
+        this.currentUserId = currentUserId;
+        this.deleteListener = deleteListener;
+    }
 
     public void submitList(List<Review> data) {
         reviews.clear();
@@ -48,6 +64,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         }
         holder.contentText.setText(firstNonEmpty(review.getContent(), "暂无文字测评"));
         holder.tagText.setText(firstNonEmpty(review.getTags(), "无标签"));
+        boolean canDelete = deleteListener != null
+                && currentUserId != null
+                && author != null
+                && currentUserId.equals(author.getObjectId());
+        holder.deleteButton.setVisibility(canDelete ? View.VISIBLE : View.GONE);
+        holder.deleteButton.setOnClickListener(canDelete ? v -> deleteListener.onDeleteClick(review) : null);
     }
 
     @Override
@@ -74,6 +96,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         final TextView poiText;
         final TextView contentText;
         final TextView tagText;
+        final ImageButton deleteButton;
 
         ReviewViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +105,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             poiText = itemView.findViewById(R.id.reviewPoiText);
             contentText = itemView.findViewById(R.id.reviewContentText);
             tagText = itemView.findViewById(R.id.reviewTagText);
+            deleteButton = itemView.findViewById(R.id.reviewDeleteButton);
         }
     }
 }
