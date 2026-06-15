@@ -13,7 +13,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="@dimen/space_lg">
+        android:paddingStart="@dimen/space_page"
+        android:paddingTop="@dimen/space_xxl"
+        android:paddingEnd="@dimen/space_page"
+        android:paddingBottom="@dimen/space_xxl">
 
         <TextView
             android:id="@+id/titleText"

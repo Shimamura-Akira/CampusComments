@@ -2,11 +2,16 @@
 <resources>
     <dimen name="space_xs">4dp</dimen>
     <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_smd">12dp</dimen>
     <dimen name="space_md">16dp</dimen>
+    <dimen name="space_page">20dp</dimen>
     <dimen name="space_lg">24dp</dimen>
     <dimen name="space_xl">32dp</dimen>
-    <dimen name="corner_md">18dp</dimen>
-    <dimen name="corner_lg">28dp</dimen>
-    <dimen name="corner_sm">10dp</dimen>
+    <dimen name="space_xxl">48dp</dimen>
+    <dimen name="corner_sm">8dp</dimen>
+    <dimen name="corner_md">14dp</dimen>
+    <dimen name="corner_lg">16dp</dimen>
+    <dimen name="corner_xl">20dp</dimen>
+    <dimen name="corner_pill">999dp</dimen>
     <dimen name="touch_target">52dp</dimen>
 </resources>

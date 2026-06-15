@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Widget.Campus.Card.Outlined"
+    style="@style/Widget.Campus.Card.List"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/space_md"
+    android:layout_marginBottom="@dimen/space_smd"
     android:clickable="true"
     android:focusable="true"
     app:rippleColor="?attr/colorPrimaryContainer">
@@ -12,55 +12,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="116dp"
         android:orientation="vertical"
-        android:padding="@dimen/space_sm">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/space_sm">
+        android:padding="@dimen/space_md">
 
         <TextView
             android:id="@+id/poiNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="2"
             android:textAppearance="@style/TextAppearance.Campus.Title" />
 
-        <TextView
-            android:id="@+id/poiMetaText"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="@dimen/space_xs"
-            android:background="@drawable/bg_chip_primary"
-            android:gravity="center"
-            android:minWidth="56dp"
-            android:paddingStart="@dimen/space_md"
-            android:paddingEnd="@dimen/space_md"
-            android:textAppearance="@style/TextAppearance.Campus.Chip"
-            android:textColor="@color/campus_on_primary_container" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/poiMetaText"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_chip_primary"
+                android:gravity="center"
+                android:minWidth="52dp"
+                android:paddingStart="@dimen/space_smd"
+                android:paddingEnd="@dimen/space_smd"
+                android:textAppearance="@style/TextAppearance.Campus.Chip"
+                android:textColor="@color/campus_on_primary_container" />
+
+            <TextView
+                android:id="@+id/poiScoreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_smd"
+                android:textAppearance="@style/TextAppearance.Campus.Chip"
+                android:textColor="?attr/colorTertiary" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/poiAddressText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textAppearance="@style/TextAppearance.Campus.Body" />
-
-        <TextView
-            android:id="@+id/poiScoreText"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="@dimen/space_sm"
-            android:background="@drawable/bg_chip_tertiary"
-            android:gravity="center"
-            android:minWidth="96dp"
-            android:paddingStart="@dimen/space_md"
-            android:paddingEnd="@dimen/space_md"
-            android:textAppearance="@style/TextAppearance.Campus.Chip"
-            android:textColor="@color/campus_on_tertiary_container" />
-
-        </LinearLayout>
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

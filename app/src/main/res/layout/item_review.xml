@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.Campus.Card.Outlined"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Campus.Card.List"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/space_md">
+    android:layout_marginBottom="@dimen/space_smd">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/space_lg">
+        android:padding="@dimen/space_md">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/touch_target"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/reviewAuthorText"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="28dp"
                 android:background="@drawable/bg_chip_secondary"
                 android:gravity="center"
-                android:minWidth="72dp"
-                android:paddingStart="@dimen/space_md"
-                android:paddingEnd="@dimen/space_md"
+                android:minWidth="64dp"
+                android:paddingStart="@dimen/space_smd"
+                android:paddingEnd="@dimen/space_smd"
                 android:textAppearance="@style/TextAppearance.Campus.Chip"
                 android:textColor="@color/campus_on_secondary_container" />
+
+            <TextView
+                android:id="@+id/reviewScoreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_smd"
+                android:textAppearance="@style/TextAppearance.Campus.Chip"
+                android:textColor="?attr/colorTertiary" />
 
             <View
                 android:layout_width="0dp"
@@ -36,34 +45,21 @@
 
             <ImageButton
                 android:id="@+id/reviewDeleteButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/touch_target"
+                android:layout_height="@dimen/touch_target"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="删除测评"
-                android:padding="13dp"
+                android:padding="14dp"
                 android:src="@drawable/ic_delete_24"
                 android:tint="?attr/colorError"
                 android:visibility="gone" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/reviewScoreText"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="@dimen/space_sm"
-            android:background="@drawable/bg_chip_tertiary"
-            android:gravity="center"
-            android:minWidth="64dp"
-            android:paddingStart="@dimen/space_md"
-            android:paddingEnd="@dimen/space_md"
-            android:textAppearance="@style/TextAppearance.Campus.Chip"
-            android:textColor="@color/campus_on_tertiary_container" />
-
-        <TextView
             android:id="@+id/reviewPoiText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_md"
+            android:layout_marginTop="@dimen/space_xs"
             android:textAppearance="@style/TextAppearance.Campus.Title"
             android:visibility="gone" />
 
@@ -77,15 +73,14 @@
         <TextView
             android:id="@+id/reviewTagText"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="@dimen/space_sm"
+            android:layout_height="28dp"
+            android:layout_marginTop="@dimen/space_smd"
             android:background="@drawable/bg_chip_primary"
             android:gravity="center"
-            android:minWidth="64dp"
-            android:paddingStart="@dimen/space_md"
-            android:paddingEnd="@dimen/space_md"
+            android:minWidth="56dp"
+            android:paddingStart="@dimen/space_smd"
+            android:paddingEnd="@dimen/space_smd"
             android:textAppearance="@style/TextAppearance.Campus.Chip"
             android:textColor="@color/campus_on_primary_container" />
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TextAppearance.Campus.Headline" parent="TextAppearance.Material3.HeadlineMedium">
+    <style name="TextAppearance.Campus.Headline" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
-    <style name="TextAppearance.Campus.Display" parent="TextAppearance.Material3.DisplaySmall">
+    <style name="TextAppearance.Campus.Display" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
@@ -18,12 +18,12 @@
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
-    <style name="TextAppearance.Campus.Body" parent="TextAppearance.Material3.BodyMedium">
+    <style name="TextAppearance.Campus.Body" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:letterSpacing">0</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
-    <style name="TextAppearance.Campus.Label" parent="TextAppearance.Material3.LabelMedium">
+    <style name="TextAppearance.Campus.Label" parent="TextAppearance.Material3.BodySmall">
         <item name="android:letterSpacing">0</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
@@ -35,19 +35,24 @@
 
     <style name="Widget.Campus.Button" parent="Widget.Material3.Button">
         <item name="android:minHeight">@dimen/touch_target</item>
-        <item name="cornerRadius">@dimen/corner_md</item>
+        <item name="cornerRadius">@dimen/corner_pill</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
     </style>
 
     <style name="Widget.Campus.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:minHeight">@dimen/touch_target</item>
-        <item name="cornerRadius">@dimen/corner_md</item>
+        <item name="cornerRadius">@dimen/corner_pill</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
     </style>
 
     <style name="Widget.Campus.Button.Text" parent="Widget.Material3.Button.TextButton">
-        <item name="android:minHeight">48dp</item>
+        <item name="android:minHeight">@dimen/touch_target</item>
+        <item name="android:letterSpacing">0</item>
     </style>
 
-    <style name="Widget.Campus.Card" parent="Widget.Material3.CardView.Elevated">
+    <style name="Widget.Campus.Card" parent="Widget.Material3.CardView.Filled">
         <item name="cardCornerRadius">@dimen/corner_lg</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeWidth">0dp</item>
@@ -58,6 +63,21 @@
         <item name="cardCornerRadius">@dimen/corner_lg</item>
         <item name="strokeColor">?attr/colorOutline</item>
         <item name="strokeWidth">1dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
+    </style>
+
+    <style name="Widget.Campus.Card.List" parent="Widget.Material3.CardView.Filled">
+        <item name="cardCornerRadius">@dimen/corner_lg</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">?attr/colorOutline</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
+    </style>
+
+    <style name="Widget.Campus.Card.Floating" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">@dimen/corner_xl</item>
+        <item name="cardElevation">6dp</item>
+        <item name="strokeWidth">0dp</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
     </style>
 
@@ -66,14 +86,24 @@
         <item name="boxCornerRadiusTopEnd">@dimen/corner_md</item>
         <item name="boxCornerRadiusBottomStart">@dimen/corner_md</item>
         <item name="boxCornerRadiusBottomEnd">@dimen/corner_md</item>
+        <item name="boxStrokeColor">?attr/colorOutline</item>
+        <item name="hintTextColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="Widget.Campus.TextInputLayout.Search" parent="Widget.Campus.TextInputLayout">
+        <item name="boxCornerRadiusTopStart">@dimen/corner_pill</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_pill</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_pill</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_pill</item>
+        <item name="boxBackgroundColor">?attr/colorSurfaceContainer</item>
     </style>
 
     <style name="Widget.Campus.NavIcon" parent="@android:style/Widget.ImageButton">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_height">52dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:padding">16dp</item>
+        <item name="android:padding">14dp</item>
         <item name="android:scaleType">center</item>
     </style>
 
