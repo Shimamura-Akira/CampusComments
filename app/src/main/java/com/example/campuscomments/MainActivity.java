@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private View myReviewsSection;
     private ImageButton homeTab;
     private ImageButton listTab;
-    private ImageButton addTab;
+    private View addTab;
     private ImageButton favoriteTab;
     private ImageButton myTab;
 
@@ -155,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         homeTab = findViewById(R.id.homeTab);
         listTab = findViewById(R.id.listTab);
         addTab = findViewById(R.id.addTab);
+        TooltipCompat.setTooltipText(addTab, getString(R.string.add_poi));
         favoriteTab = findViewById(R.id.favoriteTab);
         myTab = findViewById(R.id.myTab);
         homeSearchInput = findViewById(R.id.homeSearchInput);
@@ -281,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
         setTabSelected(listTab, selectedTab == listTab);
         setTabSelected(favoriteTab, selectedTab == favoriteTab);
         setTabSelected(myTab, selectedTab == myTab);
-        setTabSelected(addTab, false);
     }
 
     private void showMyReviews() {
@@ -294,7 +295,6 @@ public class MainActivity extends AppCompatActivity {
         setTabSelected(listTab, false);
         setTabSelected(favoriteTab, false);
         setTabSelected(myTab, true);
-        setTabSelected(addTab, false);
         loadMyReviews();
     }
 

@@ -28,6 +28,8 @@
     <color name="campus_nav_icon">#C7CDD3</color>
     <color name="campus_nav_selected_background">#F3F1EC</color>
     <color name="campus_nav_selected_icon">#151A1F</color>
+    <color name="campus_nav_action_background">#FFB986</color>
+    <color name="campus_nav_action_icon">#151A1F</color>
     <color name="campus_photo_start">#6DB9C8</color>
     <color name="campus_photo_mid">#D88D4C</color>
     <color name="campus_photo_end">#13181D</color>
