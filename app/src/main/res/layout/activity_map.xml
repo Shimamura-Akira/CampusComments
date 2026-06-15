@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mapRoot"
     android:layout_width="match_parent"
@@ -18,24 +18,24 @@
         android:layout_height="4dp"
         android:indeterminate="true" />
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Campus.Card.Floating"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:layout_margin="@dimen/space_md">
+        android:layout_margin="@dimen/space_md"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Campus.Card.Floating"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/space_smd">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="@dimen/space_smd">
 
                 <ImageButton
                     android:id="@+id/backButton"
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_sm"
                     android:layout_weight="1"
-                    android:hint="搜索高德地点"
+                    android:hint="搜索新地点"
                     app:startIconDrawable="@drawable/ic_search_24">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -58,35 +58,38 @@
                         android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/typeSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/touch_target"
-                    android:layout_weight="1" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/searchButton"
                     style="@style/Widget.Campus.Button.Outlined"
-                    android:layout_width="96dp"
+                    android:layout_width="76dp"
                     android:layout_height="@dimen/touch_target"
                     android:layout_marginStart="@dimen/space_sm"
                     android:text="搜索" />
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/filterButton"
-                style="@style/Widget.Campus.Button.Text"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/touch_target"
-                android:text="筛选地图兴趣点" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-</FrameLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/filterButton"
+            style="@style/Widget.Campus.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/touch_target"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/space_sm"
+            android:text="全部兴趣点"
+            app:icon="@drawable/ic_filter_24" />
+
+        <LinearLayout
+            android:id="@+id/filterOptionsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:orientation="vertical"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/poiSummarySheet"
+        layout="@layout/bottom_sheet_map_poi_summary" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

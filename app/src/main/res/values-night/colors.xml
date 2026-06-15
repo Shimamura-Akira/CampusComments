@@ -30,6 +30,14 @@
     <color name="campus_nav_selected_icon">#151A1F</color>
     <color name="campus_nav_action_background">#FFB986</color>
     <color name="campus_nav_action_icon">#151A1F</color>
+    <color name="campus_map_marker_building">#78B7EE</color>
+    <color name="campus_map_marker_canteen">#FFB986</color>
+    <color name="campus_map_marker_restaurant">#FF9B9B</color>
+    <color name="campus_map_marker_study">#79C99D</color>
+    <color name="campus_map_marker_dorm">#BDA3EC</color>
+    <color name="campus_map_marker_sports">#75C8E5</color>
+    <color name="campus_map_marker_other">#B9C4CF</color>
+    <color name="campus_map_marker_candidate">#F3F1EC</color>
     <color name="campus_photo_start">#6DB9C8</color>
     <color name="campus_photo_mid">#D88D4C</color>
     <color name="campus_photo_end">#13181D</color>

@@ -16,4 +16,6 @@
     <dimen name="touch_target">52dp</dimen>
     <dimen name="bottom_nav_height">72dp</dimen>
     <dimen name="nav_action_size">56dp</dimen>
+    <dimen name="map_marker_size">32dp</dimen>
+    <dimen name="map_marker_selected_size">44dp</dimen>
 </resources>

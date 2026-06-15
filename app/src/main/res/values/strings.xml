@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">校园点评</string>
     <string name="add_poi">添加兴趣点</string>
+    <string name="filter_all_pois">全部兴趣点</string>
 </resources>
