@@ -108,6 +108,9 @@ public class MapActivity extends AppCompatActivity {
     private MaterialButton summaryActionButton;
 
     private LatLonPoint currentLocation;
+    private String requestedFocusPoiId;
+    private double requestedFocusLatitude = Double.NaN;
+    private double requestedFocusLongitude = Double.NaN;
     private Marker selectedMarker;
     private Marker candidateMarker;
     private PoiItem candidatePoi;
@@ -151,12 +154,24 @@ public class MapActivity extends AppCompatActivity {
         WindowInsetUtils.applySystemBars(this);
         WindowInsetUtils.bindBackButton(this);
 
+        readFocusRequest();
         bindViews();
         setupMap(savedInstanceState);
         setupSummarySheet();
         setupFilterOptions();
         setupActions();
         ensureLocationPermission();
+    }
+
+    private void readFocusRequest() {
+        Intent intent = getIntent();
+        requestedFocusPoiId = intent.getStringExtra(AppConstants.EXTRA_FOCUS_POI_OBJECT_ID);
+        requestedFocusLatitude = intent.getDoubleExtra(
+                AppConstants.EXTRA_FOCUS_LATITUDE,
+                Double.NaN);
+        requestedFocusLongitude = intent.getDoubleExtra(
+                AppConstants.EXTRA_FOCUS_LONGITUDE,
+                Double.NaN);
     }
 
     private void bindViews() {
@@ -588,6 +603,9 @@ public class MapActivity extends AppCompatActivity {
                 endLoading();
                 renderPoiMarkers(accumulator);
                 markerDataReady = true;
+                if (focusRequestedPoiIfReady()) {
+                    return;
+                }
                 if (frameResults) {
                     initialCameraApplied = true;
                     framePois(accumulator);
@@ -606,6 +624,45 @@ public class MapActivity extends AppCompatActivity {
         for (CampusPoi poi : pois) {
             addPoiMarker(poi);
         }
+    }
+
+    private boolean focusRequestedPoiIfReady() {
+        if (TextUtils.isEmpty(requestedFocusPoiId)) {
+            return false;
+        }
+        for (Marker marker : poiMarkers) {
+            Object object = marker.getObject();
+            if (!(object instanceof CampusPoi)) {
+                continue;
+            }
+            CampusPoi poi = (CampusPoi) object;
+            if (!requestedFocusPoiId.equals(poi.getObjectId())) {
+                continue;
+            }
+            requestedFocusPoiId = null;
+            initialCameraApplied = true;
+            LatLng position = marker.getPosition();
+            mapView.post(() -> {
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 17.5f));
+                selectPoiMarker(marker, poi);
+            });
+            return true;
+        }
+
+        if (!Double.isNaN(requestedFocusLatitude)
+                && !Double.isNaN(requestedFocusLongitude)) {
+            LatLng fallback = new LatLng(
+                    requestedFocusLatitude,
+                    requestedFocusLongitude);
+            requestedFocusPoiId = null;
+            initialCameraApplied = true;
+            mapView.post(() ->
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(fallback, 17.5f)));
+            Toast.makeText(this, "已定位到测评对应位置", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        requestedFocusPoiId = null;
+        return false;
     }
 
     private void addPoiMarker(CampusPoi poi) {

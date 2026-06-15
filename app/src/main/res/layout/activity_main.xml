@@ -83,12 +83,30 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/touch_target"
                     android:layout_marginTop="@dimen/space_xl"
-                    android:text="随机点评"
-                    android:textAppearance="@style/TextAppearance.Campus.Title" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="随机点评"
+                        android:textAppearance="@style/TextAppearance.Campus.Title" />
+
+                    <ImageButton
+                        android:id="@+id/randomRefreshButton"
+                        android:layout_width="@dimen/touch_target"
+                        android:layout_height="@dimen/touch_target"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="刷新随机点评"
+                        android:padding="14dp"
+                        android:src="@drawable/ic_refresh_24"
+                        android:tint="?attr/colorOnSurface" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/randomEmptyText"
@@ -202,17 +220,48 @@
                     android:textAppearance="@style/TextAppearance.Campus.Display" />
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="收藏的兴趣点"
+                    android:textAppearance="@style/TextAppearance.Campus.Title" />
+
+                <TextView
                     android:id="@+id/favoriteEmptyText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="@dimen/space_lg"
-                    android:text="暂无收藏"
+                    android:text="暂无收藏的兴趣点"
                     android:textAppearance="@style/TextAppearance.Campus.Body"
                     android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/favoriteRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:nestedScrollingEnabled="false" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="收藏的测评"
+                    android:textAppearance="@style/TextAppearance.Campus.Title" />
+
+                <TextView
+                    android:id="@+id/reviewFavoriteEmptyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/space_lg"
+                    android:text="暂无收藏的测评"
+                    android:textAppearance="@style/TextAppearance.Campus.Body"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/reviewFavoriteRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_md"

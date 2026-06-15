@@ -2,6 +2,9 @@ package com.example.campuscomments;
 
 public final class AppConstants {
     public static final String EXTRA_POI_OBJECT_ID = "poi_object_id";
+    public static final String EXTRA_FOCUS_POI_OBJECT_ID = "focus_poi_object_id";
+    public static final String EXTRA_FOCUS_LATITUDE = "focus_latitude";
+    public static final String EXTRA_FOCUS_LONGITUDE = "focus_longitude";
 
     public static final String TYPE_BUILDING = "building";
     public static final String TYPE_CANTEEN = "canteen";

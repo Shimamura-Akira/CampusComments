@@ -35,6 +35,7 @@ import com.example.campuscomments.model.CampusPoi;
 import com.example.campuscomments.model.Favorite;
 import com.example.campuscomments.model.Review;
 import com.example.campuscomments.util.ReviewDeleteUtils;
+import com.example.campuscomments.util.ReviewFavoriteUtils;
 import com.example.campuscomments.util.WindowInsetUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -43,8 +44,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView randomEmptyText;
     private TextView listEmptyText;
     private TextView favoriteEmptyText;
+    private TextView reviewFavoriteEmptyText;
     private TextView myReviewEmptyText;
     private TextView userAvatarText;
     private TextView userNameText;
@@ -86,12 +90,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView favoriteCountText;
     private TextView reviewCountText;
     private ProgressBar listProgressBar;
+    private ImageButton randomRefreshButton;
 
     private ReviewAdapter randomReviewAdapter;
     private PoiAdapter listAdapter;
     private PoiAdapter favoriteAdapter;
+    private ReviewAdapter reviewFavoriteAdapter;
     private ReviewAdapter myReviewAdapter;
     private final List<CampusPoi> nearbyPois = new ArrayList<>();
+    private int poiFavoriteCount;
+    private int reviewFavoriteCount;
 
     private final ActivityResultLauncher<String> locationPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
@@ -166,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         randomEmptyText = findViewById(R.id.randomEmptyText);
         listEmptyText = findViewById(R.id.listEmptyText);
         favoriteEmptyText = findViewById(R.id.favoriteEmptyText);
+        reviewFavoriteEmptyText = findViewById(R.id.reviewFavoriteEmptyText);
         myReviewEmptyText = findViewById(R.id.myReviewEmptyText);
         userAvatarText = findViewById(R.id.userAvatarText);
         userNameText = findViewById(R.id.userNameText);
@@ -173,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
         favoriteCountText = findViewById(R.id.favoriteCountText);
         reviewCountText = findViewById(R.id.reviewCountText);
         listProgressBar = findViewById(R.id.listProgressBar);
+        randomRefreshButton = findViewById(R.id.randomRefreshButton);
     }
 
     private void setupTabs() {
@@ -207,15 +217,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupLists() {
-        randomReviewAdapter = new ReviewAdapter();
+        randomReviewAdapter = new ReviewAdapter(
+                null,
+                null,
+                this::openReviewOnMap,
+                this::toggleReviewFavorite);
         listAdapter = new PoiAdapter(this::openPoiDetail);
         favoriteAdapter = new PoiAdapter(this::openPoiDetail);
+        reviewFavoriteAdapter = new ReviewAdapter(
+                null,
+                null,
+                this::openReviewOnMap,
+                this::toggleReviewFavorite);
         myReviewAdapter = new ReviewAdapter(currentUser.getObjectId(), this::confirmDeleteReview);
 
         setupRecycler(R.id.randomReviewRecyclerView, randomReviewAdapter);
         setupRecycler(R.id.nearbyPoiRecyclerView, listAdapter);
         setupRecycler(R.id.favoriteRecyclerView, favoriteAdapter);
+        setupRecycler(R.id.reviewFavoriteRecyclerView, reviewFavoriteAdapter);
         setupRecycler(R.id.myReviewRecyclerView, myReviewAdapter);
+
+        randomRefreshButton.setOnClickListener(v -> loadRandomReviews());
 
         listSearchInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -356,6 +378,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadRandomReviews() {
+        if (randomRefreshButton != null) {
+            randomRefreshButton.setEnabled(false);
+            randomRefreshButton.animate()
+                    .rotationBy(360f)
+                    .setDuration(220L)
+                    .start();
+        }
         BmobQuery<Review> query = new BmobQuery<>();
         query.include("poi,author");
         query.order("-createdAt");
@@ -363,6 +392,9 @@ public class MainActivity extends AppCompatActivity {
         query.findObjects(new FindListener<Review>() {
             @Override
             public void done(List<Review> reviews, BmobException e) {
+                if (randomRefreshButton != null) {
+                    randomRefreshButton.setEnabled(true);
+                }
                 if (e == null) {
                     if (reviews == null) {
                         reviews = new ArrayList<>();
@@ -465,14 +497,95 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     favoriteAdapter.submitList(pois);
-                    favoriteCountText.setText(String.format(Locale.CHINA, "%d 收藏", pois.size()));
+                    poiFavoriteCount = pois.size();
+                    updateFavoriteCount();
                     favoriteEmptyText.setVisibility(pois.isEmpty() ? View.VISIBLE : View.GONE);
                 } else {
-                    favoriteCountText.setText("0 收藏");
+                    poiFavoriteCount = 0;
+                    updateFavoriteCount();
                     favoriteEmptyText.setVisibility(View.VISIBLE);
                 }
             }
         });
+        loadReviewFavorites();
+    }
+
+    private void loadReviewFavorites() {
+        ReviewFavoriteUtils.loadFavoriteReviewIds(currentUser, (reviewIds, errorMessage) -> {
+            Set<String> ids = reviewIds == null ? new HashSet<>() : reviewIds;
+            randomReviewAdapter.setFavoriteReviewIds(ids);
+            reviewFavoriteAdapter.setFavoriteReviewIds(ids);
+            reviewFavoriteCount = ids.size();
+            updateFavoriteCount();
+
+            if (errorMessage != null || ids.isEmpty()) {
+                reviewFavoriteAdapter.submitList(new ArrayList<>());
+                reviewFavoriteEmptyText.setVisibility(View.VISIBLE);
+                return;
+            }
+
+            BmobQuery<Review> query = new BmobQuery<>();
+            query.addWhereContainedIn("objectId", new ArrayList<>(ids));
+            query.include("poi,author");
+            query.order("-createdAt");
+            query.setLimit(500);
+            query.findObjects(new FindListener<Review>() {
+                @Override
+                public void done(List<Review> reviews, BmobException e) {
+                    List<Review> result = reviews == null ? new ArrayList<>() : reviews;
+                    if (e == null) {
+                        reviewFavoriteAdapter.submitList(result);
+                        reviewFavoriteCount = result.size();
+                        updateFavoriteCount();
+                        reviewFavoriteEmptyText.setVisibility(
+                                result.isEmpty() ? View.VISIBLE : View.GONE);
+                    } else {
+                        reviewFavoriteAdapter.submitList(new ArrayList<>());
+                        reviewFavoriteEmptyText.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        });
+    }
+
+    private void updateFavoriteCount() {
+        favoriteCountText.setText(String.format(
+                Locale.CHINA,
+                "%d 收藏",
+                poiFavoriteCount + reviewFavoriteCount));
+    }
+
+    private void toggleReviewFavorite(Review review) {
+        ReviewFavoriteUtils.toggleFavorite(currentUser, review, (favorite, favoriteCount, errorMessage) -> {
+            String reviewId = review == null ? null : review.getObjectId();
+            if (errorMessage != null) {
+                randomReviewAdapter.clearFavoritePending(reviewId);
+                reviewFavoriteAdapter.clearFavoritePending(reviewId);
+                Toast.makeText(this, "操作失败：" + errorMessage, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            randomReviewAdapter.setFavoriteState(reviewId, favorite, favoriteCount);
+            reviewFavoriteAdapter.setFavoriteState(reviewId, favorite, favoriteCount);
+            Toast.makeText(
+                    this,
+                    favorite ? "已收藏测评" : "已取消收藏",
+                    Toast.LENGTH_SHORT).show();
+            loadReviewFavorites();
+        });
+    }
+
+    private void openReviewOnMap(Review review) {
+        CampusPoi poi = review == null ? null : review.getPoi();
+        if (poi == null || poi.getObjectId() == null
+                || poi.getLatitude() == null || poi.getLongitude() == null) {
+            Toast.makeText(this, "该测评暂时没有可用的地图位置", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, MapActivity.class);
+        intent.putExtra(AppConstants.EXTRA_FOCUS_POI_OBJECT_ID, poi.getObjectId());
+        intent.putExtra(AppConstants.EXTRA_FOCUS_LATITUDE, poi.getLatitude());
+        intent.putExtra(AppConstants.EXTRA_FOCUS_LONGITUDE, poi.getLongitude());
+        startActivity(intent);
     }
 
     private void loadMyReviews() {

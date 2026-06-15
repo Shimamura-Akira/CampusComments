@@ -10,6 +10,7 @@ public class Review extends BmobObject {
     private Integer score;
     private String content;
     private String tags;
+    private Integer favoriteCount;
 
     public CampusPoi getPoi() {
         return poi;
@@ -49,5 +50,13 @@ public class Review extends BmobObject {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public Integer getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(Integer favoriteCount) {
+        this.favoriteCount = favoriteCount;
     }
 }

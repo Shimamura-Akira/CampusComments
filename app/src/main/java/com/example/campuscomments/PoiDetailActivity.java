@@ -18,6 +18,7 @@ import com.example.campuscomments.model.CampusPoi;
 import com.example.campuscomments.model.Favorite;
 import com.example.campuscomments.model.Review;
 import com.example.campuscomments.util.ReviewDeleteUtils;
+import com.example.campuscomments.util.ReviewFavoriteUtils;
 import com.example.campuscomments.util.WindowInsetUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -76,7 +77,9 @@ public class PoiDetailActivity extends AppCompatActivity {
         CampusUser currentUser = BmobUser.getCurrentUser(CampusUser.class);
         reviewAdapter = new ReviewAdapter(
                 currentUser == null ? null : currentUser.getObjectId(),
-                this::confirmDeleteReview);
+                this::confirmDeleteReview,
+                null,
+                this::toggleReviewFavorite);
         reviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         reviewRecyclerView.setAdapter(reviewAdapter);
 
@@ -94,6 +97,7 @@ public class PoiDetailActivity extends AppCompatActivity {
         loadPoi();
         loadReviews();
         loadFavoriteState();
+        loadReviewFavoriteStates();
     }
 
     private void loadPoi() {
@@ -172,6 +176,35 @@ public class PoiDetailActivity extends AppCompatActivity {
                     favoriteButton.setText("收藏");
                 }
             }
+        });
+    }
+
+    private void loadReviewFavoriteStates() {
+        CampusUser user = BmobUser.getCurrentUser(CampusUser.class);
+        if (user == null) {
+            return;
+        }
+        ReviewFavoriteUtils.loadFavoriteReviewIds(user, (reviewIds, errorMessage) -> {
+            if (errorMessage == null) {
+                reviewAdapter.setFavoriteReviewIds(reviewIds);
+            }
+        });
+    }
+
+    private void toggleReviewFavorite(Review review) {
+        CampusUser user = BmobUser.getCurrentUser(CampusUser.class);
+        ReviewFavoriteUtils.toggleFavorite(user, review, (favorite, favoriteCount, errorMessage) -> {
+            String reviewId = review == null ? null : review.getObjectId();
+            if (errorMessage != null) {
+                reviewAdapter.clearFavoritePending(reviewId);
+                Toast.makeText(this, "操作失败：" + errorMessage, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            reviewAdapter.setFavoriteState(reviewId, favorite, favoriteCount);
+            Toast.makeText(
+                    this,
+                    favorite ? "已收藏测评" : "已取消收藏",
+                    Toast.LENGTH_SHORT).show();
         });
     }
 

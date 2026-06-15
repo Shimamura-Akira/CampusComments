@@ -43,6 +43,27 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
+            <TextView
+                android:id="@+id/reviewFavoriteCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/touch_target"
+                android:gravity="center"
+                android:minWidth="24dp"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.Campus.Label"
+                android:textColor="?attr/colorTertiary" />
+
+            <ImageButton
+                android:id="@+id/reviewFavoriteButton"
+                android:layout_width="@dimen/touch_target"
+                android:layout_height="@dimen/touch_target"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="收藏测评"
+                android:padding="14dp"
+                android:src="@drawable/ic_heart_outline_24"
+                android:tint="@color/review_favorite_tint"
+                android:visibility="gone" />
+
             <ImageButton
                 android:id="@+id/reviewDeleteButton"
                 android:layout_width="@dimen/touch_target"
